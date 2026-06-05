@@ -23,7 +23,10 @@ struct MiraRootView: View {
                         activeWorkspace(layout: layout)
                     }
                 } else {
-                    activeWorkspace(layout: layout)
+                    VStack(spacing: 0) {
+                        MiraCompactSectionBar(selectedSection: $appState.selectedSection)
+                        activeWorkspace(layout: layout)
+                    }
                 }
             }
         }

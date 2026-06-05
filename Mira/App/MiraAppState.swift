@@ -33,7 +33,7 @@ final class MiraAppState {
         self.advisorConfiguration = advisorConfiguration
         self.inventory = inventory
         self.diagnostics = diagnostics
-        self.selectedRoute = inventory.routes.first
+        self.selectedRoute = nil
         self.selectedPersona = MockMiraData.personas.first
         self.selectedTeam = MockMiraData.teams.first
     }

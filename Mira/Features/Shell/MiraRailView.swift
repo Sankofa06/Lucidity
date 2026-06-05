@@ -46,3 +46,36 @@ struct MiraRailView: View {
         }
     }
 }
+
+struct MiraCompactSectionBar: View {
+    @Binding var selectedSection: MiraSection
+
+    var body: some View {
+        ScrollView(.horizontal, showsIndicators: false) {
+            HStack(spacing: 8) {
+                ForEach(MiraSection.allCases) { section in
+                    Button {
+                        selectedSection = section
+                    } label: {
+                        Label(section.title, systemImage: section.symbolName)
+                            .font(.caption.weight(.semibold))
+                            .foregroundStyle(selectedSection == section ? MiraTheme.background : MiraTheme.text)
+                            .padding(.horizontal, 10)
+                            .frame(height: 34)
+                            .background(
+                                selectedSection == section ? MiraTheme.accent : MiraTheme.surfaceStrong,
+                                in: Capsule()
+                            )
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+        }
+        .background(MiraTheme.rail)
+        .overlay(alignment: .bottom) {
+            Rectangle().fill(MiraTheme.border).frame(height: 1)
+        }
+    }
+}

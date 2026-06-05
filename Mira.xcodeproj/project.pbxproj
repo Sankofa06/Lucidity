@@ -15,8 +15,10 @@
 		3D7CEDCF65839827B1F3C427 /* SettingsHubView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12FDB3B6FCB611C69044E4DA /* SettingsHubView.swift */; };
 		47D10CE56F35895DF6988812 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B81907F9DDB9297D51C992A8 /* Assets.xcassets */; };
 		5C563B7BD44C10DFFE3F7F49 /* RouteValidationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7924A1A3DD8C19126126AE9C /* RouteValidationTests.swift */; };
+		625F58E92DCC073CA54DC3D0 /* EndpointHTTPClients.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6661621930814577EA66F88E /* EndpointHTTPClients.swift */; };
 		662A68F6AC8B73980EE4D301 /* MiraSmokeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04D9845BF5AAD3E1EDDB15FA /* MiraSmokeTests.swift */; };
 		6662E3A1A711180F0D5F6856 /* MiraApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 847AFAFC451130DC3C6A6545 /* MiraApp.swift */; };
+		6B9EBF6C2F455723FAD0AC47 /* EndpointHTTPClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BFDC08531E70FBC3150C01B5 /* EndpointHTTPClientTests.swift */; };
 		7617E8436580B7D0441FAB0B /* EndpointURLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6FBB57E065D451912F6ADB1A /* EndpointURLBuilder.swift */; };
 		81147EC02FAECCD045DE5D47 /* WorkspaceModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57F4FF4EB20D3E25D10F2D5A /* WorkspaceModels.swift */; };
 		83042020FF768C3D6AB8E385 /* TaskPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61505ED4E5FC762AD8297FED /* TaskPickerView.swift */; };
@@ -63,6 +65,7 @@
 		57F4FF4EB20D3E25D10F2D5A /* WorkspaceModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkspaceModels.swift; sourceTree = "<group>"; };
 		5F8F6FF36F3229D74DF4EFAB /* HubViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HubViews.swift; sourceTree = "<group>"; };
 		61505ED4E5FC762AD8297FED /* TaskPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TaskPickerView.swift; sourceTree = "<group>"; };
+		6661621930814577EA66F88E /* EndpointHTTPClients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointHTTPClients.swift; sourceTree = "<group>"; };
 		6FBB57E065D451912F6ADB1A /* EndpointURLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointURLBuilder.swift; sourceTree = "<group>"; };
 		73691DF2E68087794D1D54F7 /* MockMiraData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockMiraData.swift; sourceTree = "<group>"; };
 		7924A1A3DD8C19126126AE9C /* RouteValidationTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RouteValidationTests.swift; sourceTree = "<group>"; };
@@ -70,6 +73,7 @@
 		847AFAFC451130DC3C6A6545 /* MiraApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiraApp.swift; sourceTree = "<group>"; };
 		AA7A7F51728859026217DD5C /* MiraResponsiveLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiraResponsiveLayout.swift; sourceTree = "<group>"; };
 		B81907F9DDB9297D51C992A8 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		BFDC08531E70FBC3150C01B5 /* EndpointHTTPClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EndpointHTTPClientTests.swift; sourceTree = "<group>"; };
 		CF5DB27B7CC0085D6DCD3C62 /* MiraAppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiraAppState.swift; sourceTree = "<group>"; };
 		E0155AAEEC8661167539B558 /* MiraRailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiraRailView.swift; sourceTree = "<group>"; };
 		E55220C9B9DE97DC50CFDC14 /* ModelSourceProtocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ModelSourceProtocols.swift; sourceTree = "<group>"; };
@@ -89,6 +93,7 @@
 			isa = PBXGroup;
 			children = (
 				2815EFA4806D6A860933819E /* EndpointClientProtocols.swift */,
+				6661621930814577EA66F88E /* EndpointHTTPClients.swift */,
 				6FBB57E065D451912F6ADB1A /* EndpointURLBuilder.swift */,
 			);
 			path = Endpoints;
@@ -134,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				258A554EACF5C34492E20F8E /* EndpointArchitectureTests.swift */,
+				BFDC08531E70FBC3150C01B5 /* EndpointHTTPClientTests.swift */,
 				04D9845BF5AAD3E1EDDB15FA /* MiraSmokeTests.swift */,
 				7924A1A3DD8C19126126AE9C /* RouteValidationTests.swift */,
 			);
@@ -326,6 +332,7 @@
 				CC19BA69BB082BDDC4A1F54E /* ChatModels.swift in Sources */,
 				2F763C2B3204BC3EA40DF8DE /* ChatWorkspaceView.swift in Sources */,
 				E55312A57EA8F8AF672555FD /* EndpointClientProtocols.swift in Sources */,
+				625F58E92DCC073CA54DC3D0 /* EndpointHTTPClients.swift in Sources */,
 				7617E8436580B7D0441FAB0B /* EndpointURLBuilder.swift in Sources */,
 				F0354B73FFC856BB54B34C03 /* HubViews.swift in Sources */,
 				AC5048984B5F85553ABD5F64 /* InspectorView.swift in Sources */,
@@ -353,6 +360,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				E3E322171588BFA21151BFB2 /* EndpointArchitectureTests.swift in Sources */,
+				6B9EBF6C2F455723FAD0AC47 /* EndpointHTTPClientTests.swift in Sources */,
 				662A68F6AC8B73980EE4D301 /* MiraSmokeTests.swift in Sources */,
 				5C563B7BD44C10DFFE3F7F49 /* RouteValidationTests.swift in Sources */,
 			);

@@ -7,15 +7,20 @@
 import Foundation
 
 protocol LMStudioReadableClient: Sendable {
-    func listModels(from endpoint: EngineEndpoint) async throws -> [EndpointModelSummary]
+    func listModels(at address: EndpointAddress) async throws -> [EndpointModelSummary]
 }
 
 protocol Automatic1111ReadableClient: Sendable {
-    func readInventory(from endpoint: EngineEndpoint) async throws -> ImageEndpointInventory
+    func readInventory(at address: EndpointAddress) async throws -> ImageEndpointInventory
 }
 
 protocol ComfyUIReadableClient: Sendable {
-    func readSystem(from endpoint: EngineEndpoint) async throws -> ComfyUISystemSummary
+    func readSystem(at address: EndpointAddress) async throws -> ComfyUISystemSummary
+}
+
+struct EndpointAddress: Hashable, Sendable {
+    var host: String
+    var port: Int
 }
 
 struct EndpointModelSummary: Identifiable, Hashable, Sendable {

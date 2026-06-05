@@ -18,12 +18,6 @@ struct ChatWorkspaceView: View {
             ChatTopBar(appState: appState)
             ScrollView {
                 VStack(alignment: .leading, spacing: 18) {
-                    MiraSectionHeader(
-                        eyebrow: "Mira Chat",
-                        title: "Choose a task, then route it.",
-                        subtitle: "Free chat, group chat, compare, media planning, endpoint inspection, and workflows all start here."
-                    )
-
                     TaskPickerView(selectedTask: $appState.selectedTask)
                     RoutePickerView(appState: appState)
                     TranscriptPreviewView(appState: appState)

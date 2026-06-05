@@ -7,6 +7,10 @@
 import Foundation
 
 enum EndpointURLBuilder {
+    static func url(address: EndpointAddress, path: String) throws -> URL {
+        try url(host: address.host, port: address.port, path: path)
+    }
+
     static func url(host: String, port: Int, path: String) throws -> URL {
         var components = URLComponents()
         components.scheme = "http"
