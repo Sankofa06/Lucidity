@@ -4,6 +4,8 @@
 
 ## User settings
 xcuserdata/
+.DS_Store
+DerivedData/
 
 ## Obj-C/Swift specific
 *.hmap
@@ -60,3 +62,9 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots/**/*.png
 fastlane/test_output
+
+# Mira local-only development data
+LocalDev/*.local.json
+LocalDev/*.private.json
+LocalDev/*.log
+docs/private/

@@ -1,0 +1,14 @@
+{
+  "machines": [
+    {
+      "name": "Example Mac",
+      "host": "example-mac.tailnet.example",
+      "expectedPorts": [1234]
+    },
+    {
+      "name": "Example GPU Box",
+      "host": "example-gpu.tailnet.example",
+      "expectedPorts": [7860, 8188]
+    }
+  ]
+}
