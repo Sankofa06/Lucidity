@@ -22,6 +22,7 @@ final class MiraAppState {
     var advisorConfiguration: AdvisorConfiguration
     var inventory: InventorySnapshot
     var diagnostics: [DiagnosticEvent]
+    var probeResults: [MachineProbeResult] = []
 
     init(
         selectedProject: MiraProject = MockMiraData.projects[0],
@@ -36,5 +37,12 @@ final class MiraAppState {
         self.selectedRoute = nil
         self.selectedPersona = MockMiraData.personas.first
         self.selectedTeam = MockMiraData.teams.first
+    }
+
+    func applyInventoryRefresh(_ refresh: MachineInventoryRefresh) {
+        inventory = refresh.inventory
+        diagnostics = refresh.diagnostics
+        probeResults = refresh.probeResults
+        selectedRoute = refresh.inventory.routes.first
     }
 }

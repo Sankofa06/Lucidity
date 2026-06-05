@@ -30,10 +30,21 @@ None.
   foundation is stable.
 - definition of done: Probes LM Studio, A1111/Forge, and ComfyUI read-only
   endpoints without committing private data.
-- verification: Mock URL tests plus optional local smoke test.
-- status: partially done
-- note: Read-only HTTP clients and mock tests exist. User-configured probing UI
-  remains a follow-up.
+- verification: Mock URL tests, route hydration tests, XcodeBuildMCP build/test.
+- status: done
+- note: Read-only HTTP clients, endpoint probe service, route hydrator, mock
+  provider, local config provider, and app-state refresh path exist. Manual
+  settings UI and optional real endpoint smoke runs remain follow-ups.
+
+### BUILD-004 - Manual machine settings UI
+
+- type: implementation
+- goal: Let users add, edit, and refresh configured machines from Settings or
+  Machines without relying on local dev config.
+- definition of done: User-entered machines can refresh inventory and hydrate
+  chat routes without private source constants.
+- verification: View-model tests, mock probe tests, XcodeBuildMCP build/test.
+- status: ready
 
 ### BUILD-003 - LM Studio live chat streaming
 

@@ -98,7 +98,11 @@ struct InspectorView: View {
                     .foregroundStyle(MiraTheme.text)
                 Text("Routes: \(appState.inventory.routes.count)")
                 Text("Machines: \(appState.inventory.machines.count)")
+                Text("Probe Results: \(appState.probeResults.count)")
                 Text("Trusted Mode: \(appState.trustedModeEnabled ? "On" : "Off")")
+                ForEach(appState.probeResults) { result in
+                    Text("\(result.request.machineName): \(result.endpointSummaries.count) endpoints")
+                }
             }
             .font(.caption.monospaced())
             .foregroundStyle(MiraTheme.secondaryText)
