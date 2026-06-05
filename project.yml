@@ -1,0 +1,39 @@
+name: Mira
+options:
+  bundleIdPrefix: com.michaelwilliams
+  deploymentTarget:
+    iOS: "18.0"
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: ""
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: Mira
+    INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+targets:
+  Mira:
+    type: application
+    platform: iOS
+    sources:
+      - path: Mira
+    resources:
+      - path: Mira/Assets.xcassets
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.michaelwilliams.mira
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    scheme:
+      testTargets:
+        - MiraTests
+  MiraTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: MiraTests
+    dependencies:
+      - target: Mira
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.michaelwilliams.mira.tests
