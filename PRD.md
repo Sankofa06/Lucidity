@@ -71,6 +71,12 @@ from one calm, modular interface, with a chat window as the universal entry poin
 - **Persona / Team / Workflow** — reusable configurations the user composes and
   (optionally) syncs. Personas bundle a default target + parameters; Teams group
   personas; Workflows capture saved ComfyUI/A1111 graphs + parameters.
+- **Plugin / Command** — an extensible unit that adds a capability to the chat
+  surface, invoked by a **slash command**. Examples: `/image` enters image
+  generation, `/video` routes to ComfyUI or xAI, `/prompt` opens a prompt
+  builder. Plugins declare their command, UI affordances, and which
+  engine/provider/job they drive — so new workflows drop in without touching the
+  chat core.
 
 ---
 
@@ -92,6 +98,9 @@ from one calm, modular interface, with a chat window as the universal entry poin
   CivitAI, HuggingFace) in the system keychain.
 - **Optional sync** of personas, teams, workflows, and chat history across the
   user's Apple devices, toggleable on/off.
+- **Plugin / slash-command system** — capabilities are added as plugins invoked
+  by slash commands from the chat composer (`/image`, `/video`, `/prompt`, …),
+  so new workflows extend the app without modifying the chat core.
 
 ### 7.2 Non-functional
 - **Platforms:** iOS + macOS clients; Host service on macOS first, cross-OS later.
@@ -110,13 +119,17 @@ from one calm, modular interface, with a chat window as the universal entry poin
 A single, rock-solid, hyper-modular **Chat window** that can drive **everything**
 from one surface:
 - chat with a **local LM Studio** model,
+- chat with an **embedded on-device** model (both MLX and llama.cpp engines
+  available from day one, behind one interface),
 - chat with a **cloud** provider using the user's key,
-- generate images/video via **Automatic1111** and **ComfyUI**,
+- generate images/video via **Automatic1111** and **ComfyUI**, reached through
+  **slash commands** (`/image`, `/video`),
 - with multi-image batches running as **background jobs** whose progress and
   results appear inline in the conversation.
 
-This proves the end-to-end spine — providers, connectors, jobs, and the chat
-surface — before broader workflows are layered on.
+This proves the end-to-end spine — providers, connectors, embedded engines, the
+plugin/command layer, jobs, and the chat surface — before broader workflows are
+layered on.
 
 **Minimum to make it real:** the chat feature module; cloud providers for
 Anthropic and OpenAI-compatible (covers OpenAI + Qwen); the LM Studio connector;
@@ -163,6 +176,13 @@ networking). Concretes only meet at the composition root.
 **Features (SwiftUI, MVVM/Clean)**
 - `ChatFeature` (the slice), `SettingsFeature` (providers/keys/sync toggle),
   `DesignSystem`; `MeshFeature` and `JobsFeature` arrive in later phases.
+
+**Plugins**
+- `PluginInterface` (domain) — the `CommandPlugin` protocol: a slash command, its
+  composer/UI affordances, and the engine/provider/job it drives.
+- `PluginsImage`, `PluginsVideo`, `PluginsPromptBuilder` — first plugins
+  (`/image`, `/video`, `/prompt`). New plugins register without touching the
+  chat core.
 
 **App / executables**
 - `LucidityApp` (iOS + macOS) — composition root; a tiny `Dependencies`
@@ -283,21 +303,46 @@ Router = backend selection.
 - **Secrets** for all providers and tooling live in the keychain via one
   `SecretAccount` enum; secrets are device-local and not synced.
 
+### 9.6 Plugins & slash-command workflows
+
+The chat composer is a command surface. Typing `/` opens a command palette
+populated by registered `CommandPlugin`s; each plugin owns a command, an optional
+inline UI (parameter fields, pickers), and the routing for what it produces.
+
+- **`/image`** → enters image generation; routes to A1111, ComfyUI, or a cloud
+  image provider (OpenAI, Gemini/Imagen, xAI, Atlas) depending on the chosen
+  target. Batches become background jobs with inline progress + thumbnails.
+- **`/video`** → routes to ComfyUI (video workflows) or xAI/another video
+  provider.
+- **`/prompt`** → a prompt-builder plugin: structured, reusable prompt
+  composition (templates, variables, saved fragments) that emits into any target.
+
+Plugins are pure registrations against `PluginInterface` — `GenerationRouter`
+asks the registry which plugin owns a command and delegates. This is how the
+owner's future workflow ideas get added: write a plugin, register it, done — no
+change to `ChatView`, `ChatViewModel`, or the transport.
+
 ---
 
 ## 10. Phased roadmap
 
-1. **Chat vertical slice** — the milestone in §8 (jobs run client-side at first).
+1. **Chat vertical slice + foundation** — the milestone in §8: one chat window
+   driving cloud, LM Studio, **both embedded engines (MLX + llama.cpp) from day
+   one**, and A1111/ComfyUI via the `/image` `/video` plugins; the
+   plugin/slash-command layer; keychain keys; local persistence. Jobs run
+   client-side at first.
 2. **Host daemon + mesh** — Tailscale discovery, per-machine connectors behind
    the Host, a node/engine browser (`MeshFeature`).
 3. **Durable jobs at scale** — persistent queue, checkpoints, crash-resume, large
    batches surviving disconnect; a jobs dashboard (`JobsFeature`).
-4. **Embedded inference** — MLX, then llama.cpp/GGUF, behind the unified engine
-   interface; model download/management (CivitAI/HuggingFace browsing).
-5. **Sync** — CloudKit sync of personal data, toggleable, with conflict handling.
-6. **More providers & workflows** — Gemini, Atlas, the aggregator, custom
-   plug-ins ("ovi"), saved workflows, and video — plus further workflow ideas
-   the owner wants to add over time.
+4. **Sync** — **CloudKit** sync of personal data, toggleable, with conflict
+   handling (the chosen first sync backend; a second is an open question).
+5. **Embedded model management** — model download/browse (CivitAI / Hugging Face)
+   for the engines already shipped in Phase 1.
+6. **More providers, plugins & workflows** — broaden providers (Gemini image,
+   Atlas, the OpenRouter aggregator, custom "ovi"), more `/`-command plugins and
+   prompt builders, saved workflows, and richer video — the owner's growing list
+   of workflow ideas.
 
 ---
 
@@ -323,13 +368,30 @@ Router = backend selection.
 
 ---
 
-## 12. Open questions
+## 12. Resolved decisions & open questions
 
-- A second sync option to complement CloudKit (to be discussed).
-- Whether MLX or llama.cpp ships first when we sequence embedded inference.
-- The full set of additional workflows the owner wants beyond the first slice.
+**Resolved**
+- **Embedded inference:** both MLX and llama.cpp are first-class **from day one**,
+  behind one engine interface — not sequenced.
+- **Sync:** **CloudKit** is the first sync backend (free, no hosting), toggleable.
+- **Workflows:** delivered as **slash-command plugins** (`/image`, `/video`,
+  `/prompt` builders) on an extensible plugin layer.
 
-## 13. Success criteria
+**Open**
+- A second sync option to complement CloudKit (free, not self-hosted) — to be
+  discussed.
+- Confirm the **"Atlas (images)"** provider's exact product/endpoint (most likely
+  Atlas Cloud's OpenAI-compatible image API — needs the owner to confirm the
+  dashboard/domain the key came from). See the API reference doc.
+- The growing list of additional workflow plugins beyond the first set.
+
+## 13. Reference material
+
+Detailed, verified API/SDK references for every integration — endpoints, auth,
+streaming/JSON shapes, and gotchas — live in **`docs/api-reference.md`**, so we
+get the REST calls and JSON contracts right the first time.
+
+## 14. Success criteria
 
 A user can, from one chat window, complete a text chat (local and cloud) and kick
 off an image batch on a remote machine that finishes in the background and shows
