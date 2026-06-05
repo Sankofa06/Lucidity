@@ -18,12 +18,46 @@ struct SettingsHubView: View {
                     subtitle: "Organized app, provider, source, Advisor, developer, diagnostic, privacy, and release settings."
                 )
 
+                machinesEndpointEntry
                 developerSettings
                 settingsGrid
             }
             .padding(22)
         }
         .background(MiraTheme.background)
+    }
+
+    private var machinesEndpointEntry: some View {
+        MiraCard {
+            VStack(alignment: .leading, spacing: 12) {
+                HStack(alignment: .top, spacing: 12) {
+                    Image(systemName: "network")
+                        .foregroundStyle(MiraTheme.accent)
+                        .frame(width: 34, height: 34)
+                        .background(MiraTheme.accent.opacity(0.12), in: RoundedRectangle(cornerRadius: 8))
+                    VStack(alignment: .leading, spacing: 5) {
+                        Text("Machines & Endpoints")
+                            .font(.headline.weight(.semibold))
+                            .foregroundStyle(MiraTheme.text)
+                        Text("\(appState.machineSettings.machineDrafts.count) configured drafts · \(appState.inventory.routes.count) hydrated routes")
+                            .font(.caption)
+                            .foregroundStyle(MiraTheme.secondaryText)
+                    }
+                    Spacer()
+                    Button {
+                        appState.selectedSection = .machines
+                    } label: {
+                        Label("Open", systemImage: "arrow.right")
+                    }
+                    .buttonStyle(MiraSecondaryButtonStyle())
+                }
+
+                Text("Real hosts, Tailscale IPs, API keys, and endpoint snapshots must stay out of source control. Optional local smoke-test config belongs in ignored LocalDev/machines.local.json.")
+                    .font(.caption)
+                    .foregroundStyle(MiraTheme.secondaryText)
+                    .fixedSize(horizontal: false, vertical: true)
+            }
+        }
     }
 
     private var developerSettings: some View {
@@ -46,20 +80,27 @@ struct SettingsHubView: View {
     private var settingsGrid: some View {
         LazyVGrid(columns: [GridItem(.adaptive(minimum: 220), spacing: 12)], spacing: 12) {
             ForEach(SettingsSection.allCases) { section in
-                MiraCard {
-                    VStack(alignment: .leading, spacing: 8) {
-                        Image(systemName: section.symbolName)
-                            .foregroundStyle(MiraTheme.accent)
-                        Text(section.title)
-                            .font(.subheadline.weight(.semibold))
-                            .foregroundStyle(MiraTheme.text)
-                        Text(section.summary)
-                            .font(.caption)
-                            .foregroundStyle(MiraTheme.secondaryText)
-                            .fixedSize(horizontal: false, vertical: true)
+                Button {
+                    if section == .machines {
+                        appState.selectedSection = .machines
                     }
-                    .frame(maxWidth: .infinity, alignment: .leading)
+                } label: {
+                    MiraCard {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Image(systemName: section.symbolName)
+                                .foregroundStyle(MiraTheme.accent)
+                            Text(section.title)
+                                .font(.subheadline.weight(.semibold))
+                                .foregroundStyle(MiraTheme.text)
+                            Text(section.summary)
+                                .font(.caption)
+                                .foregroundStyle(MiraTheme.secondaryText)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    }
                 }
+                .buttonStyle(.plain)
             }
         }
     }

@@ -1,6 +1,6 @@
-# Lucidity — API & SDK Reference
+# Mira — API & SDK Reference
 
-> Verified developer reference for every integration Lucidity drives, so we get
+> Verified developer reference for every integration Mira drives, so we get
 > the REST calls, auth, streaming, and JSON contracts right the first time.
 > Compiled June 2026. Items that couldn't be fetched live are marked
 > **"verify"** — confirm against the linked docs before relying on them.
@@ -9,7 +9,7 @@
 > Chat Completions wire format**, so one Swift HTTP client serves OpenAI, Qwen,
 > xAI, OpenRouter, LM Studio, and Ollama by varying only **base URL + API key +
 > model id**. Anthropic and Gemini each need their own adapter. All adapters
-> emit Lucidity's common `ChatEvent` stream.
+> emit Mira's common `ChatEvent` stream.
 
 ---
 

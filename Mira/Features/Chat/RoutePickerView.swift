@@ -1,8 +1,8 @@
 // RoutePickerView.swift
 // Searchable smart route picker shell for Mira.
 //
-// The picker displays public-safe route fixtures for the first build and will
-// later hydrate from configured machines, cloud providers, and source metadata.
+// The picker displays hydrated routes from fixtures, manual machine refreshes,
+// cloud providers, and source metadata as those layers come online.
 
 import SwiftUI
 

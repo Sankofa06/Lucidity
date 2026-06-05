@@ -23,17 +23,20 @@ final class MiraAppState {
     var inventory: InventorySnapshot
     var diagnostics: [DiagnosticEvent]
     var probeResults: [MachineProbeResult] = []
+    var machineSettings: MachineSettingsViewModel
 
     init(
         selectedProject: MiraProject = MockMiraData.projects[0],
         advisorConfiguration: AdvisorConfiguration = MockMiraData.advisor,
         inventory: InventorySnapshot = MockMiraData.inventory,
-        diagnostics: [DiagnosticEvent] = MockMiraData.diagnostics
+        diagnostics: [DiagnosticEvent] = MockMiraData.diagnostics,
+        machineSettings: MachineSettingsViewModel = MachineSettingsViewModel()
     ) {
         self.selectedProject = selectedProject
         self.advisorConfiguration = advisorConfiguration
         self.inventory = inventory
         self.diagnostics = diagnostics
+        self.machineSettings = machineSettings
         self.selectedRoute = nil
         self.selectedPersona = MockMiraData.personas.first
         self.selectedTeam = MockMiraData.teams.first

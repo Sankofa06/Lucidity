@@ -40,6 +40,9 @@ become package targets without changing names.
 - `SmartRun`
 - `RunStep`
 - `InventorySnapshot`
+- `ConfiguredMachineDraft`
+- `MachinePortPreset`
+- `InventoryRefreshState`
 - `RouteValidator`
 - `RunScheduler`
 - `RunConcurrencyPolicy`
@@ -56,6 +59,13 @@ become package targets without changing names.
 Real endpoint data is runtime/user configuration only. Public fixtures use fake
 machines and example hostnames. Local smoke tests may use ignored files under
 `LocalDev/`.
+
+Manual machine settings are currently in-memory. `MachineSettingsViewModel`
+validates drafts, normalizes expected ports, converts user-entered values into
+`MachineProbeRequest`, and runs the existing `MachineInventoryService`,
+`EndpointProbeService`, and `RouteHydrationService` pipeline. Chat, Inspector,
+Machines, and Library all consume the refreshed `InventorySnapshot` from
+`MiraAppState`.
 
 ## Background And Extensions
 

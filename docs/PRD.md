@@ -46,7 +46,8 @@ Machines, Personas, Teams, and Projects support that flow.
 - **Model Sources**: Hugging Face and CivitAI source layer for keys, metadata,
   download planning, installed-file matching, licenses, trigger words, and
   persona/route attachment.
-- **Machines**: manual/Tailscale machines and discovered endpoints.
+- **Machines**: manual/Tailscale machines, expected endpoint ports, refresh,
+  probe diagnostics, and discovered routes.
 - **Settings**: organized first-class settings hub.
 
 ## Navigation And Layout
@@ -117,6 +118,15 @@ The target picker is task-first and searchable. A selectable route combines:
 Filters include online/offline, loaded/unloaded, machine, engine/provider,
 local/cloud/on-device, text/image/video/GIF, reasoning, vision, context,
 checkpoint, LoRA, ControlNet, AnimateDiff, cost, speed, pinned, recent, and tags.
+
+## Machine Inventory
+
+The first user-facing inventory workflow lets users add/edit machine display
+names, hosts, and expected ports in-memory, then run read-only probes. Default
+public fixtures use example hosts; real hosts must be entered at runtime or kept
+in ignored local development config. Refreshed inventory hydrates machines,
+endpoints, routes, diagnostics, Chat route picker content, Inspector developer
+details, Machines status, and Library counts.
 
 ## Advisor
 

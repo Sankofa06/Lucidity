@@ -1,5 +1,11 @@
 # Release Notes
 
+## Version 0.1.4 (Build 5) - 2026-06-05
+
+- Added manual machine settings for display names, hosts, and expected endpoint ports.
+- Added read-only inventory refresh from configured machines into Chat, Inspector, Machines, and Library.
+- Added probe result diagnostics and Settings entry points for Machines & Endpoints.
+
 ## Version 0.1.2 (Build 3) - 2026-06-05
 
 - Added read-only machine inventory probing architecture for local AI endpoints.

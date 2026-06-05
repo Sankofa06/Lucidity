@@ -85,3 +85,60 @@ struct AdvisorChip: View {
         .buttonStyle(.plain)
     }
 }
+
+struct MiraPrimaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(MiraTheme.background)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 9)
+            .background(MiraTheme.accent.opacity(configuration.isPressed ? 0.78 : 1), in: RoundedRectangle(cornerRadius: 8))
+    }
+}
+
+struct MiraSecondaryButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.caption.weight(.semibold))
+            .foregroundStyle(MiraTheme.text)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 9)
+            .background(MiraTheme.elevated.opacity(configuration.isPressed ? 0.72 : 1), in: RoundedRectangle(cornerRadius: 8))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(MiraTheme.border, lineWidth: 1)
+            }
+    }
+}
+
+struct MiraIconButtonStyle: ButtonStyle {
+    var tint: Color = MiraTheme.secondaryText
+
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .font(.caption.weight(.bold))
+            .foregroundStyle(tint)
+            .frame(width: 30, height: 30)
+            .background(MiraTheme.elevated.opacity(configuration.isPressed ? 0.65 : 1), in: RoundedRectangle(cornerRadius: 8))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(MiraTheme.border, lineWidth: 1)
+            }
+    }
+}
+
+struct MiraTextFieldStyle: TextFieldStyle {
+    func _body(configuration: TextField<Self._Label>) -> some View {
+        configuration
+            .font(.subheadline)
+            .foregroundStyle(MiraTheme.text)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 8)
+            .background(MiraTheme.elevated, in: RoundedRectangle(cornerRadius: 8))
+            .overlay {
+                RoundedRectangle(cornerRadius: 8)
+                    .stroke(MiraTheme.border, lineWidth: 1)
+            }
+    }
+}

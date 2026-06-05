@@ -101,7 +101,18 @@ struct InspectorView: View {
                 Text("Probe Results: \(appState.probeResults.count)")
                 Text("Trusted Mode: \(appState.trustedModeEnabled ? "On" : "Off")")
                 ForEach(appState.probeResults) { result in
-                    Text("\(result.request.machineName): \(result.endpointSummaries.count) endpoints")
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("\(result.request.machineName): \(result.endpointSummaries.count) endpoints")
+                            .foregroundStyle(MiraTheme.text)
+                        Text("\(result.request.host) ports \(result.request.expectedPorts.map(String.init).joined(separator: ","))")
+                        ForEach(result.endpointSummaries) { summary in
+                            Text("· \(summary.engine.title) :\(summary.address.port) \(summary.health.title)")
+                        }
+                        ForEach(result.diagnostics) { diagnostic in
+                            Text("! \(diagnostic.title)")
+                                .foregroundStyle(MiraTheme.warning)
+                        }
+                    }
                 }
             }
             .font(.caption.monospaced())
