@@ -1,5 +1,11 @@
 # Release Notes
 
+## Version 0.1.5 (Build 6) - 2026-06-05
+
+- Added Free Chat streaming for selected hydrated LM Studio text routes.
+- Added an OpenAI-compatible SSE parser and LM Studio chat client.
+- Added in-memory transcript state, streaming controls, and Inspector Developer Mode details.
+
 ## Version 0.1.4 (Build 5) - 2026-06-05
 
 - Added manual machine settings for display names, hosts, and expected endpoint ports.

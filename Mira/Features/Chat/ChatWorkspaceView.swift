@@ -1,8 +1,8 @@
 // ChatWorkspaceView.swift
 // Primary chat-first workspace for Mira.
 //
-// Renders task selection, route selection, transcript scaffolding, and composer
-// state. Root state supplies selected task and route.
+// Renders task selection, route selection, in-memory Free Chat streaming, and
+// composer state. Root state supplies selected task, route, and chat model.
 
 import SwiftUI
 
@@ -10,7 +10,11 @@ struct ChatWorkspaceView: View {
     @Bindable var appState: MiraAppState
 
     private var canSend: Bool {
-        RouteValidator.canSend(task: appState.selectedTask, route: appState.selectedRoute)
+        appState.chat.canSend(
+            task: appState.selectedTask,
+            route: appState.selectedRoute,
+            inventory: appState.inventory
+        )
     }
 
     var body: some View {
@@ -24,7 +28,7 @@ struct ChatWorkspaceView: View {
                 }
                 .padding(22)
             }
-            ChatComposerView(canSend: canSend)
+            ChatComposerView(appState: appState, canSend: canSend)
         }
         .background(MiraTheme.background)
     }
@@ -63,11 +67,18 @@ private struct TranscriptPreviewView: View {
 
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
-            MessageBubble(role: "System", text: "Mira is ready. Select a task and route to begin.")
+            MessageBubble(role: .system, text: "Mira is ready. Select a Free Chat LM Studio route to stream a response.")
             if let route = appState.selectedRoute {
                 MessageBubble(
-                    role: "Route",
+                    role: .diagnostic,
                     text: "\(route.friendlyName) is selected for \(appState.selectedTask.title)."
+                )
+            }
+            ForEach(appState.chat.messages) { message in
+                MessageBubble(
+                    role: message.role,
+                    text: message.text.isEmpty && message.role == .assistant ? "Responding..." : message.text,
+                    isStreaming: appState.chat.isStreaming && message.id == appState.chat.messages.last?.id
                 )
             }
         }
@@ -75,33 +86,71 @@ private struct TranscriptPreviewView: View {
 }
 
 private struct MessageBubble: View {
-    let role: String
+    let role: ChatMessage.Role
     let text: String
+    var isStreaming = false
 
     var body: some View {
         MiraCard {
             VStack(alignment: .leading, spacing: 8) {
-                Text(role.uppercased())
+                HStack(spacing: 7) {
+                    Circle()
+                        .fill(tint)
+                        .frame(width: 7, height: 7)
+                        .shadow(color: isStreaming ? tint.opacity(0.9) : .clear, radius: MiraTheme.glowRadius)
+                    Text(roleTitle.uppercased())
+                }
                     .font(.caption2.weight(.bold))
                     .foregroundStyle(MiraTheme.secondaryText)
                 Text(text)
                     .font(.body)
                     .foregroundStyle(MiraTheme.text)
+                    .textSelection(.enabled)
             }
+        }
+        .shadow(color: isStreaming ? MiraTheme.accent.opacity(0.25) : .clear, radius: MiraTheme.glowRadius)
+    }
+
+    private var roleTitle: String {
+        switch role {
+        case .user:
+            "You"
+        case .assistant:
+            "Assistant"
+        case .system:
+            "System"
+        case .diagnostic:
+            "Route"
+        }
+    }
+
+    private var tint: Color {
+        switch role {
+        case .user:
+            MiraTheme.info
+        case .assistant:
+            MiraTheme.accent
+        case .system:
+            MiraTheme.success
+        case .diagnostic:
+            MiraTheme.warning
         }
     }
 }
 
 private struct ChatComposerView: View {
+    @Bindable var appState: MiraAppState
     let canSend: Bool
 
     var body: some View {
         VStack(spacing: 10) {
-            HStack {
-                Text(canSend ? "Ask Mira or describe what to create..." : "Select a route before sending")
+            HStack(alignment: .bottom, spacing: 10) {
+                TextField(composerPlaceholder, text: $appState.chat.inputText, axis: .vertical)
+                    .lineLimit(1...5)
+                    .textFieldStyle(.plain)
                     .font(.subheadline)
-                    .foregroundStyle(canSend ? MiraTheme.text : MiraTheme.secondaryText)
-                Spacer()
+                    .foregroundStyle(MiraTheme.text)
+                    .disabled(appState.chat.isStreaming)
                 AdvisorChip(title: "Prompt")
             }
             .padding(14)
@@ -112,14 +161,63 @@ private struct ChatComposerView: View {
             }
 
             HStack {
-                MiraChip(title: canSend ? "Ready" : "Route required", symbolName: canSend ? "checkmark.circle" : "scope", tint: canSend ? MiraTheme.success : MiraTheme.warning)
+                MiraChip(title: statusTitle, symbolName: statusSymbol, tint: statusTint)
                 Spacer()
-                Button("Send") { }
-                    .buttonStyle(.borderedProminent)
+                if appState.chat.canStop {
+                    Button("Stop") {
+                        appState.chat.stop()
+                    }
+                    .buttonStyle(MiraSecondaryButtonStyle())
+                } else {
+                    Button("Send") {
+                        appState.chat.send(appState: appState)
+                    }
+                    .buttonStyle(MiraPrimaryButtonStyle())
                     .disabled(!canSend)
+                }
             }
         }
         .padding(18)
         .background(MiraTheme.rail)
+    }
+
+    private var composerPlaceholder: String {
+        if appState.chat.isStreaming {
+            return "LM Studio is responding..."
+        }
+        if canSend {
+            return "Ask the selected LM Studio route..."
+        }
+        if case .chat(.free) = appState.selectedTask {
+            return "Select an LM Studio route before sending"
+        }
+        return "Live sending is Free Chat only in this slice"
+    }
+
+    private var statusTitle: String {
+        if appState.chat.isStreaming {
+            return "Responding"
+        }
+        if canSend {
+            return "Ready"
+        }
+        if case .chat(.free) = appState.selectedTask {
+            return "Route required"
+        }
+        return "Free Chat only"
+    }
+
+    private var statusSymbol: String {
+        if appState.chat.isStreaming {
+            return "dot.radiowaves.left.and.right"
+        }
+        return canSend ? "checkmark.circle" : "scope"
+    }
+
+    private var statusTint: Color {
+        if appState.chat.isStreaming {
+            return MiraTheme.accent
+        }
+        return canSend ? MiraTheme.success : MiraTheme.warning
     }
 }

@@ -6,7 +6,7 @@
 
 import Foundation
 
-enum EngineKind: String, CaseIterable, Identifiable, Hashable {
+enum EngineKind: String, CaseIterable, Identifiable, Hashable, Sendable {
     case lmStudio
     case automatic1111
     case forge
@@ -28,7 +28,7 @@ enum EngineKind: String, CaseIterable, Identifiable, Hashable {
     }
 }
 
-enum RouteCapability: String, CaseIterable, Identifiable, Hashable {
+enum RouteCapability: String, CaseIterable, Identifiable, Hashable, Sendable {
     case text
     case vision
     case image
@@ -44,7 +44,7 @@ enum RouteCapability: String, CaseIterable, Identifiable, Hashable {
     var id: String { rawValue }
 }
 
-enum RouteHealth: String, Hashable {
+enum RouteHealth: String, Hashable, Sendable {
     case ready
     case available
     case busy
@@ -62,7 +62,7 @@ enum RouteHealth: String, Hashable {
     }
 }
 
-struct Machine: Identifiable, Hashable {
+struct Machine: Identifiable, Hashable, Sendable {
     let id: UUID
     var name: String
     var hostDescription: String
@@ -70,7 +70,7 @@ struct Machine: Identifiable, Hashable {
     var isUserConfigured: Bool
 }
 
-struct EngineEndpoint: Identifiable, Hashable {
+struct EngineEndpoint: Identifiable, Hashable, Sendable {
     let id: UUID
     var machineID: UUID?
     var engine: EngineKind
@@ -80,7 +80,7 @@ struct EngineEndpoint: Identifiable, Hashable {
     var metadataSummary: String
 }
 
-struct SmartRoute: Identifiable, Hashable {
+struct SmartRoute: Identifiable, Hashable, Sendable {
     let id: UUID
     var friendlyName: String
     var userAlias: String?
@@ -93,14 +93,14 @@ struct SmartRoute: Identifiable, Hashable {
     var isRecent: Bool
 }
 
-struct InventorySnapshot: Hashable {
+struct InventorySnapshot: Hashable, Sendable {
     var machines: [Machine]
     var endpoints: [EngineEndpoint]
     var routes: [SmartRoute]
     var capturedAt: Date
 }
 
-struct SmartRun: Identifiable, Hashable {
+struct SmartRun: Identifiable, Hashable, Sendable {
     let id: UUID
     var task: ChatTask
     var routeIDs: [UUID]
@@ -108,7 +108,7 @@ struct SmartRun: Identifiable, Hashable {
     var status: RunStatus
 }
 
-struct RunStep: Identifiable, Hashable {
+struct RunStep: Identifiable, Hashable, Sendable {
     let id: UUID
     var routeID: UUID
     var title: String
@@ -116,14 +116,14 @@ struct RunStep: Identifiable, Hashable {
     var progress: Double?
 }
 
-enum RunStatus: String, Hashable {
+enum RunStatus: String, Hashable, Sendable {
     case planned
     case running
     case completed
     case failed
 }
 
-struct RunConcurrencyPolicy: Hashable {
+struct RunConcurrencyPolicy: Hashable, Sendable {
     var allowsParallelText: Bool
     var allowsParallelMediaOnSameMachine: Bool
 

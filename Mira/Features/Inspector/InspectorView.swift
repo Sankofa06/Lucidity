@@ -100,6 +100,23 @@ struct InspectorView: View {
                 Text("Machines: \(appState.inventory.machines.count)")
                 Text("Probe Results: \(appState.probeResults.count)")
                 Text("Trusted Mode: \(appState.trustedModeEnabled ? "On" : "Off")")
+                Divider().overlay(MiraTheme.border)
+                Text("Chat Streaming: \(appState.chat.isStreaming ? "Running" : "Idle")")
+                Text("Run ID: \(appState.chat.activeRunID?.uuidString ?? "None")")
+                Text("Request: \(appState.chat.activeRequestPath ?? "None")")
+                Text("Model: \(appState.chat.activeModelName ?? "None")")
+                Text("Endpoint: \(appState.chat.activeEndpointSummary ?? "None")")
+                if let startedAt = appState.chat.startedAt {
+                    Text("Started: \(startedAt.formatted(date: .omitted, time: .standard))")
+                }
+                if let completedAt = appState.chat.completedAt {
+                    Text("Completed: \(completedAt.formatted(date: .omitted, time: .standard))")
+                }
+                if let lastError = appState.chat.lastError {
+                    Text("Last Error: \(lastError)")
+                        .foregroundStyle(MiraTheme.warning)
+                }
+                Divider().overlay(MiraTheme.border)
                 ForEach(appState.probeResults) { result in
                     VStack(alignment: .leading, spacing: 4) {
                         Text("\(result.request.machineName): \(result.endpointSummaries.count) endpoints")

@@ -6,7 +6,7 @@
 
 import Foundation
 
-enum ChatTask: Hashable {
+enum ChatTask: Hashable, Sendable {
     case chat(ChatMode)
     case createMedia
     case inspect
@@ -31,7 +31,7 @@ enum ChatTask: Hashable {
     }
 }
 
-enum ChatMode: String, CaseIterable, Identifiable, Hashable {
+enum ChatMode: String, CaseIterable, Identifiable, Hashable, Sendable {
     case free
     case group
     case compare
@@ -47,7 +47,7 @@ enum ChatMode: String, CaseIterable, Identifiable, Hashable {
     }
 }
 
-struct ChatSession: Identifiable, Hashable {
+struct ChatSession: Identifiable, Hashable, Sendable {
     let id: UUID
     var title: String
     var projectID: UUID?
@@ -56,8 +56,8 @@ struct ChatSession: Identifiable, Hashable {
     var updatedAt: Date
 }
 
-struct ChatMessage: Identifiable, Hashable {
-    enum Role: String {
+struct ChatMessage: Identifiable, Hashable, Sendable {
+    enum Role: String, Sendable {
         case user
         case assistant
         case system

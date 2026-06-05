@@ -56,7 +56,10 @@ None.
 - definition of done: One selected LM Studio route can stream a response into
   the chat transcript.
 - verification: Mock SSE test and optional local smoke test.
-- status: ready
+- status: done
+- note: Free Chat now streams through selected hydrated LM Studio text routes
+  using OpenAI-compatible `/v1/chat/completions`. Transcript state remains
+  in-memory, and Group Chat/Compare stay planned.
 
 ### BUILD-005 - Durable machine persistence
 
@@ -67,6 +70,15 @@ None.
   storing private data in source control.
 - verification: Persistence tests, migration/default tests, XcodeBuildMCP
   build/test.
+- status: ready
+
+### BUILD-006 - Multi-route chat modes
+
+- type: implementation
+- goal: Extend the live chat path from Free Chat to Compare and Group Chat.
+- definition of done: Compare can run one prompt across multiple selected text
+  routes, and Group Chat can sequence selected personas/routes.
+- verification: Scheduler tests, cancellation tests, XcodeBuildMCP build/test.
 - status: ready
 
 ## blocked

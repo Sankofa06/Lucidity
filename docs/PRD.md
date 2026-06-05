@@ -84,6 +84,10 @@ Fresh chat cannot send until a task/route is selected. Free Chat, Group Chat,
 Compare, media planning, endpoint inspection, and workflows use the same
 orchestration engine.
 
+First live chat implementation: Free Chat can stream one response from an
+explicitly selected hydrated LM Studio text route. Group Chat, Compare,
+transcript persistence, and cloud chat streaming remain planned follow-ups.
+
 ## Internal Engine
 
 User-facing language stays simple: task, route, plan, progress, result.

@@ -16,7 +16,8 @@ become package targets without changing names.
 
 ## Feature Areas
 
-- `Chat`: transcript, composer, task picker, route picker, run cards.
+- `Chat`: transcript, composer, task picker, route picker, run cards, and
+  in-memory Free Chat streaming.
 - `Inspector`: contextual dashboard for route, machine, persona, diagnostics.
 - `Settings`: organized settings hub and Developer Mode.
 - `Personas`: persona and media persona editing.
@@ -34,6 +35,9 @@ become package targets without changing names.
 - `ChatSession`
 - `ChatMessage`
 - `ChatTask`
+- `ChatStreaming`
+- `ChatStreamEvent`
+- `ChatRouteResolution`
 - `Machine`
 - `EngineEndpoint`
 - `SmartRoute`
@@ -66,6 +70,12 @@ validates drafts, normalizes expected ports, converts user-entered values into
 `EndpointProbeService`, and `RouteHydrationService` pipeline. Chat, Inspector,
 Machines, and Library all consume the refreshed `InventorySnapshot` from
 `MiraAppState`.
+
+Free Chat streaming is also in-memory. `ChatWorkspaceViewModel` resolves the
+selected hydrated LM Studio text route, appends the user message, streams
+assistant deltas through `ChatStreaming`, and exposes active run state to
+Inspector Developer Mode. `LMStudioChatClient` uses OpenAI-compatible
+`POST /v1/chat/completions` with SSE and does not mutate remote endpoints.
 
 ## Background And Extensions
 
