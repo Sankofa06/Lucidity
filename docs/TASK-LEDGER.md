@@ -4,10 +4,6 @@ Canonical task ledger for the first build.
 
 ## done
 
-None yet.
-
-## in-progress
-
 ### BUILD-001 - First build foundation
 
 - type: implementation
@@ -17,8 +13,13 @@ None yet.
 - definition of done: The app builds with XcodeBuildMCP, core tests pass,
   documentation is current, private endpoint data is not committed, and verified
   slices are committed.
-- verification: `xcodegen generate`, XcodeBuildMCP build/test, `git diff --check`.
-- status: in-progress
+- verification: `xcodegen generate`, XcodeBuildMCP build/test, screenshot sanity
+  check, `git diff --check`.
+- status: done
+
+## in-progress
+
+None.
 
 ## ready
 
@@ -30,7 +31,9 @@ None yet.
 - definition of done: Probes LM Studio, A1111/Forge, and ComfyUI read-only
   endpoints without committing private data.
 - verification: Mock URL tests plus optional local smoke test.
-- status: ready
+- status: partially done
+- note: Read-only HTTP clients and mock tests exist. User-configured probing UI
+  remains a follow-up.
 
 ### BUILD-003 - LM Studio live chat streaming
 
