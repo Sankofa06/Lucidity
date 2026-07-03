@@ -1,0 +1,21 @@
+{
+  "name": "lucidity-fleet",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Lucidity Fleet: orchestrator, MCP diffusion server, and phone-first PWA for a Tailscale-only local inference fleet (opencode + LM Studio + ComfyUI).",
+  "workspaces": [
+    "shared",
+    "orchestrator",
+    "mcp-diffusion",
+    "pwa"
+  ],
+  "scripts": {
+    "build": "npm run build -w shared && npm run build -w orchestrator && npm run build -w mcp-diffusion && npm run build -w pwa",
+    "test": "npm run test -w orchestrator && npm run test -w mcp-diffusion",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "lint": "npm run typecheck"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

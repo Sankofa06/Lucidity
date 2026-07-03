@@ -1,0 +1,73 @@
+# .gitlab-ci.yml
+#
+# What: GitLab CI for the Lucidity repo's Fleet stack (orchestrator, MCP
+#       diffusion server, PWA).
+# Does: Validates on shared runners; deploys via self-hosted shell runners
+#       registered on the fleet machines (tags: lucidity-mini,
+#       lucidity-macbook, lucidity-rtx4070). Deploy jobs are manual — push a
+#       button in the GitLab UI (works fine from the phone).
+# Note: shared runners cannot reach the tailnet; anything touching a machine
+#       MUST run on that machine's own runner. Register runners with:
+#         gitlab-runner register --executor shell --tag-list lucidity-mini ...
+#       (see Fleet/README.md, "GitLab CI" section).
+
+stages:
+  - test
+  - deploy
+
+# ---- validation (any runner, incl. gitlab.com shared) -------------------------
+fleet:test:
+  stage: test
+  image: node:22
+  rules:
+    - changes:
+        - Fleet/**/*
+        - .gitlab-ci.yml
+  cache:
+    key: fleet-npm
+    paths:
+      - Fleet/node_modules/
+  script:
+    - cd Fleet
+    - npm ci --no-audit --no-fund
+    - npm run build
+    - npm test
+
+# ---- deploys (self-hosted shell runners inside the tailnet) --------------------
+# Mac Mini: orchestrator + mcp-diffusion + its own opencode. Builds in place,
+# then kickstarts the launchd units.
+deploy:mini:
+  stage: deploy
+  tags: [lucidity-mini]
+  rules:
+    - changes:
+        - Fleet/**/*
+        - .gitlab-ci.yml
+      when: manual
+      allow_failure: true
+  script:
+    - cd Fleet
+    - npm ci --no-audit --no-fund
+    - npm run build
+    - bash deploy/macos/restart-services.sh
+
+# MacBook: only runs `opencode serve`; nothing to build. Restart picks up
+# opencode/config changes after you update them on the machine.
+deploy:macbook:
+  stage: deploy
+  tags: [lucidity-macbook]
+  rules:
+    - when: manual
+      allow_failure: true
+  script:
+    - bash Fleet/deploy/macos/restart-services.sh
+
+# RTX 4070 Windows box: restarts opencode serve + ComfyUI scheduled tasks.
+deploy:rtx4070:
+  stage: deploy
+  tags: [lucidity-rtx4070]
+  rules:
+    - when: manual
+      allow_failure: true
+  script:
+    - powershell -ExecutionPolicy Bypass -File Fleet/deploy/windows/restart-services.ps1

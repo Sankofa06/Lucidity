@@ -1,0 +1,504 @@
+/* Fleet/pwa/src/styles.css
+ *
+ * What: All styling for the Lucidity Fleet PWA.
+ * Does: Mobile-first dark theme; safe-area aware tab bar; chat bubbles,
+ *       job cards, sheets. One file on purpose — small app, one owner.
+ * Touches: nothing.
+ * Touched by: main.tsx import.
+ */
+
+:root {
+    --bg: #0e1016;
+    --panel: #171a23;
+    --panel-2: #1e2230;
+    --text: #e8eaf2;
+    --muted: #8b91a7;
+    --accent: #5a7bfc;
+    --accent-2: #37c8f5;
+    --danger: #f0596b;
+    --ok: #3fd68f;
+    --radius: 14px;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+    height: 100%;
+    margin: 0;
+}
+
+body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    -webkit-font-smoothing: antialiased;
+}
+
+.app {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    height: 100dvh;
+}
+
+.content {
+    flex: 1;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* ---- tab bar ---- */
+.tabbar {
+    display: flex;
+    border-top: 1px solid #262b3a;
+    background: var(--panel);
+    padding-bottom: env(safe-area-inset-bottom);
+}
+
+.tabbar a {
+    flex: 1;
+    text-align: center;
+    padding: 12px 0;
+    color: var(--muted);
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.tabbar a.active {
+    color: var(--accent-2);
+}
+
+/* ---- page scaffolding ---- */
+.page {
+    padding: 12px;
+    padding-top: calc(12px + env(safe-area-inset-top));
+    max-width: 760px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.pagehead {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+}
+
+.pagehead h1 {
+    font-size: 20px;
+    margin: 0;
+    flex: 1;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.pagehead-actions {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+}
+
+.back {
+    font-size: 28px;
+    line-height: 1;
+    color: var(--text);
+    text-decoration: none;
+    padding: 0 6px;
+}
+
+.convo-title {
+    flex: 1;
+    min-width: 0;
+}
+
+.banner {
+    background: var(--accent);
+    color: #fff;
+    text-align: center;
+    padding: 6px 10px;
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.banner.warn {
+    background: #6b5300;
+    border-radius: var(--radius);
+    margin-bottom: 8px;
+    cursor: default;
+}
+
+/* ---- controls ---- */
+button {
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid #2c3245;
+    border-radius: 10px;
+    padding: 8px 14px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+}
+
+button:disabled {
+    opacity: 0.45;
+    cursor: default;
+}
+
+input,
+textarea,
+select {
+    width: 100%;
+    background: var(--panel-2);
+    color: var(--text);
+    border: 1px solid #2c3245;
+    border-radius: 10px;
+    padding: 10px;
+    font-size: 15px;
+    font-family: inherit;
+}
+
+textarea {
+    resize: vertical;
+}
+
+.field {
+    display: block;
+    margin-bottom: 12px;
+}
+
+.field span {
+    display: block;
+    font-size: 13px;
+    color: var(--muted);
+    margin-bottom: 4px;
+}
+
+.hint {
+    color: var(--muted);
+    font-size: 13px;
+}
+
+.error {
+    color: var(--danger);
+    font-size: 13px;
+}
+
+.empty {
+    color: var(--muted);
+    text-align: center;
+    margin-top: 40px;
+}
+
+/* ---- status dots & pills ---- */
+.dot {
+    display: inline-block;
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    margin-right: 6px;
+}
+
+.dot.on {
+    background: var(--ok);
+}
+
+.dot.off {
+    background: var(--danger);
+}
+
+.pill {
+    font-size: 12px;
+    padding: 3px 10px;
+    border-radius: 999px;
+    background: var(--panel-2);
+    color: var(--muted);
+}
+
+.pill.on,
+.pill.completed {
+    color: var(--ok);
+}
+
+.pill.off,
+.pill.failed {
+    color: var(--danger);
+}
+
+.pill.running {
+    color: var(--accent-2);
+}
+
+/* ---- session list ---- */
+.sessionlist {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sessionlist li a {
+    display: block;
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 8px;
+    color: var(--text);
+    text-decoration: none;
+}
+
+.session-title {
+    font-weight: 600;
+    margin-bottom: 3px;
+}
+
+.session-meta {
+    font-size: 12px;
+    color: var(--muted);
+}
+
+/* ---- conversation ---- */
+.conversation {
+    height: 100%;
+}
+
+.messages {
+    flex: 1;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-bottom: 8px;
+}
+
+.bubble {
+    max-width: 92%;
+    border-radius: var(--radius);
+    padding: 10px 13px;
+    font-size: 15px;
+    line-height: 1.45;
+}
+
+.bubble.user {
+    align-self: flex-end;
+    background: var(--accent);
+    color: #fff;
+}
+
+.bubble.assistant {
+    align-self: flex-start;
+    background: var(--panel);
+}
+
+.part-text {
+    white-space: pre-wrap;
+    word-break: break-word;
+}
+
+.part-tool {
+    font-size: 13px;
+    color: var(--muted);
+    background: var(--panel-2);
+    border-radius: 8px;
+    padding: 4px 8px;
+    margin: 4px 0;
+    display: inline-block;
+}
+
+.tool-completed {
+    color: var(--ok);
+}
+
+.tool-error {
+    color: var(--danger);
+}
+
+.part-reasoning summary {
+    color: var(--muted);
+    font-size: 13px;
+    cursor: pointer;
+}
+
+.part-error {
+    color: var(--danger);
+    font-size: 13px;
+    margin-top: 6px;
+}
+
+.composer {
+    padding-top: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.composer-row {
+    display: flex;
+    gap: 8px;
+    align-items: flex-end;
+}
+
+.composer-row textarea {
+    flex: 1;
+}
+
+.composer-row button {
+    height: 44px;
+    min-width: 52px;
+}
+
+/* ---- sheets ---- */
+.sheet-backdrop {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.55);
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    z-index: 20;
+}
+
+.sheet {
+    background: var(--panel);
+    border-radius: 18px 18px 0 0;
+    padding: 18px 16px calc(18px + env(safe-area-inset-bottom));
+    width: 100%;
+    max-width: 560px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.sheet h2 {
+    margin: 0 0 6px;
+    font-size: 17px;
+}
+
+/* ---- images ---- */
+.genform {
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+}
+
+.genform-row {
+    display: flex;
+    gap: 8px;
+    align-items: center;
+}
+
+.genform-row select {
+    flex: 1;
+}
+
+.steps {
+    flex: 1;
+    font-size: 13px;
+    color: var(--muted);
+}
+
+.jobs {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.jobcard {
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 12px;
+}
+
+.jobcard-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.jobcard-head button {
+    margin-left: auto;
+    padding: 4px 10px;
+    font-size: 12px;
+}
+
+.jobcard-prompt {
+    font-size: 14px;
+    color: var(--text);
+    margin-bottom: 8px;
+}
+
+.progress {
+    height: 6px;
+    background: var(--panel-2);
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--accent-2));
+    transition: width 0.3s ease;
+}
+
+.jobcard-images {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 8px;
+}
+
+.jobcard-images img {
+    width: 100%;
+    border-radius: 10px;
+    display: block;
+}
+
+/* ---- machines ---- */
+.machinecard {
+    background: var(--panel);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    margin-bottom: 10px;
+}
+
+.machinecard-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 6px;
+}
+
+.machinecard-body {
+    font-size: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.machinecard-body button {
+    align-self: flex-start;
+    font-size: 13px;
+    padding: 6px 10px;
+}
+
+.modellist {
+    margin: 4px 0 0;
+    padding-left: 18px;
+    color: var(--muted);
+    font-size: 13px;
+}

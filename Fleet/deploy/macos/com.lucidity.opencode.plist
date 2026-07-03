@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fleet/deploy/macos/com.lucidity.opencode.plist
+     launchd unit template: `opencode serve` bound to the tailnet on every Mac.
+     __PLACEHOLDERS__ are substituted by install.sh. Binding 0.0.0.0 is safe
+     because the machine is only reachable inside the tailnet. -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lucidity.opencode</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>__OPENCODE__</string>
+        <string>serve</string>
+        <string>--hostname</string>
+        <string>0.0.0.0</string>
+        <string>--port</string>
+        <string>4096</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>__HOME__</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>__HOME__/Library/Logs/lucidity/opencode.log</string>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/Library/Logs/lucidity/opencode.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/opt/homebrew/bin:/usr/local/bin:/usr/bin:/bin</string>
+    </dict>
+</dict>
+</plist>

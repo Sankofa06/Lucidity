@@ -1,0 +1,34 @@
+{
+  "$comment": "Lucidity Fleet orchestrator config — EXAMPLE with fake tailnet hosts. Copy to LocalDev/fleet.local.json (git-ignored) and fill in your real Tailscale MagicDNS names. Never commit real hosts/IPs (see CLAUDE.md, Private Endpoint Data).",
+  "port": 8780,
+  "dataDir": "~/.lucidity-fleet/orchestrator",
+  "diffusion": {
+    "url": "http://fake-mini.example-tailnet.ts.net:8790"
+  },
+  "machines": [
+    {
+      "id": "m5-macbook",
+      "name": "M5 MacBook Pro",
+      "host": "fake-macbook.example-tailnet.ts.net",
+      "platform": "macos",
+      "opencodePort": 4096,
+      "lmstudioPort": 1234
+    },
+    {
+      "id": "m4-mini",
+      "name": "M4 Mac Mini",
+      "host": "fake-mini.example-tailnet.ts.net",
+      "platform": "macos",
+      "opencodePort": 4096,
+      "lmstudioPort": 1234
+    },
+    {
+      "id": "rtx4070",
+      "name": "RTX 4070 Windows",
+      "host": "fake-rtx.example-tailnet.ts.net",
+      "platform": "windows",
+      "opencodePort": 4096,
+      "lmstudioPort": 1234
+    }
+  ]
+}

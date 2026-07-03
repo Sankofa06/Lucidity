@@ -1,0 +1,50 @@
+// Fleet/opencode/opencode.example.jsonc
+//
+// What: Example opencode config for EVERY fleet machine.
+// Does: Points opencode at the machine's *local* LM Studio server as its model
+//       provider, and registers the fleet's MCP diffusion server so agents can
+//       generate images mid-session.
+// Where it goes: ~/.config/opencode/opencode.json on macOS,
+//       %USERPROFILE%\.config\opencode\opencode.json on Windows.
+//       (Strip these // comments or keep the file as .jsonc — opencode accepts JSONC.)
+// Per-machine edits: ONLY the "models" list differs per machine (list what that
+//       machine's LM Studio actually serves) and the MCP url's host (your real
+//       tailnet name for the Mac Mini). baseURL stays 127.0.0.1 because LM Studio
+//       runs on the same machine as its opencode instance.
+{
+    "$schema": "https://opencode.ai/config.json",
+
+    "provider": {
+        "lmstudio": {
+            // @ai-sdk/openai-compatible speaks LM Studio's OpenAI-compatible API.
+            "npm": "@ai-sdk/openai-compatible",
+            "name": "LM Studio (local)",
+            "options": {
+                "baseURL": "http://127.0.0.1:1234/v1"
+            },
+            "models": {
+                // Keys must match LM Studio's model identifiers (visible in the
+                // LM Studio server tab or GET /v1/models). Examples:
+                "qwen2.5-coder-32b-instruct": {
+                    "name": "Qwen2.5 Coder 32B",
+                    "tool_call": true
+                },
+                "qwen2.5-coder-14b-instruct": {
+                    "name": "Qwen2.5 Coder 14B",
+                    "tool_call": true
+                }
+            }
+        }
+    },
+
+    "mcp": {
+        // The fleet-wide diffusion server (runs on the Mac Mini next to the
+        // orchestrator; wraps ComfyUI on the RTX 4070 box). Same URL on all
+        // three machines — replace the fake host with your tailnet name.
+        "diffusion": {
+            "type": "remote",
+            "url": "http://fake-mini.example-tailnet.ts.net:8790/mcp",
+            "enabled": true
+        }
+    }
+}

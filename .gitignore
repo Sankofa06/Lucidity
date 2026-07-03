@@ -68,3 +68,9 @@ LocalDev/*.local.json
 LocalDev/*.private.json
 LocalDev/*.log
 docs/private/
+
+# Lucidity Fleet (Node workspaces under Fleet/)
+node_modules/
+Fleet/*/dist/
+*.tsbuildinfo
+npm-debug.log*

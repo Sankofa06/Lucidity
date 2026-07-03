@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Fleet/deploy/macos/com.lucidity.mcp-diffusion.plist
+     launchd unit template: the MCP diffusion server (Mac Mini only).
+     COMFY_URL must point at the ComfyUI machine's tailnet name.
+     __PLACEHOLDERS__ are substituted by install.sh. -->
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.lucidity.mcp-diffusion</string>
+    <key>ProgramArguments</key>
+    <array>
+        <string>__NODE__</string>
+        <string>__REPO__/Fleet/mcp-diffusion/dist/index.js</string>
+    </array>
+    <key>WorkingDirectory</key>
+    <string>__REPO__/Fleet</string>
+    <key>RunAtLoad</key>
+    <true/>
+    <key>KeepAlive</key>
+    <true/>
+    <key>StandardOutPath</key>
+    <string>__HOME__/Library/Logs/lucidity/mcp-diffusion.log</string>
+    <key>StandardErrorPath</key>
+    <string>__HOME__/Library/Logs/lucidity/mcp-diffusion.log</string>
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>COMFY_URL</key>
+        <string>__COMFY_URL__</string>
+    </dict>
+</dict>
+</plist>

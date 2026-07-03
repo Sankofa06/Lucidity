@@ -15,3 +15,12 @@ OpenAI-compatible chat completions endpoint.
 
 Real endpoint data is runtime configuration only. Do not commit private
 Tailscale IPs, machine names, API keys, endpoint snapshots, or model inventory.
+
+## Lucidity Fleet
+
+`Fleet/` contains the self-hosted orchestration stack for the local inference
+fleet: an orchestrator service (session routing, chat history mirroring,
+machine health), an MCP diffusion server wrapping ComfyUI (callable by
+opencode agents mid-session and by the phone), and a phone-first installable
+PWA — all Tailscale-only. See `Fleet/README.md` for architecture, setup, and
+GitLab CI.
