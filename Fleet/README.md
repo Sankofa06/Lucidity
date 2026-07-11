@@ -75,6 +75,11 @@ coding session — the same engine the PWA's Images tab uses.
 
 ## Setup
 
+New to this stack? Start with **[`docs/BRINGUP.md`](docs/BRINGUP.md)** — a
+staged checklist (one machine chatting → add the rest → images → optional
+CI), each stage with a concrete pass/fail check. The rest of this section is
+the reference version of the same steps.
+
 ### 0. Tailscale (all machines + phone)
 
 - Install Tailscale everywhere and join the same tailnet; enable
@@ -97,9 +102,11 @@ coding session — the same engine the PWA's Images tab uses.
    - macOS: `Fleet/deploy/macos/install.sh opencode`
    - Windows: `Fleet/deploy/windows/install.ps1 -Unit opencode`
 
-### 2. RTX 4070 box: ComfyUI
+### 2. ComfyUI (RTX 4070 box, or any other tailnet machine)
 
-ComfyUI must listen on the tailnet:
+ComfyUI does not need to run on the same machine as the orchestrator — the
+diffusion server below just needs a `COMFY_URL` it can reach over the
+tailnet. ComfyUI must listen on the tailnet, not just localhost:
 `python main.py --listen 0.0.0.0 --port 8188`, or install it as a task:
 `Fleet/deploy/windows/install.ps1 -Unit comfyui -ComfyDir C:\ComfyUI -ComfyPython C:\ComfyUI\venv\Scripts\python.exe`.
 
