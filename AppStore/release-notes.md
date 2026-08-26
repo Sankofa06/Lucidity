@@ -1,5 +1,10 @@
 # Release Notes
 
+## Version 0.1.5 (Build 7) - 2026-08-26
+
+- Prepared the current Mira release for signed App Store distribution from the stable Xcode 26.3 runner.
+- Kept the Version 0.1.5 feature set unchanged from Build 6.
+
 ## Version 0.1.5 (Build 6) - 2026-06-05
 
 - Added Free Chat streaming for selected hydrated LM Studio text routes.

@@ -25,12 +25,21 @@
     "project": "Mira.xcodeproj",
     "scheme": "Mira",
     "configuration": "Release",
+    "warningPolicy": "project",
     "destinations": { "iOS": "generic/platform=iOS" },
+    "signing": {
+      "mode": "manual",
+      "certificateType": "DISTRIBUTION",
+      "certificateId": "2YL26QXK8S",
+      "profileType": "IOS_APP_STORE",
+      "profileId": "LPTBBB63JD",
+      "profileName": "Mira App Store - Silversurfer Pro"
+    },
     "appReviewRequiresFinalApproval": true
   },
   "release": {
     "marketingVersion": "0.1.5",
-    "buildNumber": "6",
+    "buildNumber": "7",
     "status": "blocked-missing-app-store-connect-record"
   },
   "credentials": {
