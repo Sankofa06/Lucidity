@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "app": {
+    "appStoreConnectId": null,
+    "name": "Mira",
+    "bundleId": "com.michaelwilliams.mira",
+    "teamId": "5RGU344VJR"
+  },
+  "source": {
+    "provider": "github",
+    "repository": "Sankofa06/Lucidity",
+    "releaseBranch": "main",
+    "releaseCommit": null
+  },
+  "stableRunner": {
+    "profile": "stable-xcode-26.3-intel",
+    "archiveMode": "ssh",
+    "architecture": "x86_64",
+    "macOsVersion": "15.7.7",
+    "macOsBuild": "24G720",
+    "developerDir": "/Applications/Xcode-26.3.0.app/Contents/Developer",
+    "xcodeVersion": "26.3",
+    "xcodeBuild": "17C529",
+    "iPhoneOsSdk": "26.2",
+    "project": "Mira.xcodeproj",
+    "scheme": "Mira",
+    "configuration": "Release",
+    "destinations": { "iOS": "generic/platform=iOS" },
+    "appReviewRequiresFinalApproval": true
+  },
+  "release": {
+    "marketingVersion": "0.1.5",
+    "buildNumber": "6",
+    "status": "blocked-missing-app-store-connect-record"
+  },
+  "credentials": {
+    "environmentFile": "~/.codex/secrets/app-store-connect.env",
+    "requiredVariables": ["ASC_KEY_ID", "ASC_ISSUER_ID", "ASC_KEY_PATH", "TEAM_ID"]
+  },
+  "publicUrls": {
+    "marketing": "https://sankofa06.github.io/Lucidity/",
+    "support": "https://sankofa06.github.io/Lucidity/support.html",
+    "privacy": "https://sankofa06.github.io/Lucidity/privacy.html"
+  }
+}

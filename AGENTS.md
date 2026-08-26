@@ -99,3 +99,5 @@ Real Tailscale IPs, machine names, API keys, endpoint snapshots, and private
 model inventories must not be committed. Use ignored `LocalDev/*.local.json`
 files for local smoke testing only. Public examples and tests must use fake
 machines and fake hosts.
+
+For App Store archive work, use the global `release-apple-app` skill and the logical `stable-xcode-26.3-intel` profile in `AppStore/release-config.json`; the private endpoint stays in the user's global runner profile. Mira may be compiled on that runner, but upload remains blocked until the owner explicitly approves creating its missing App Store Connect record.
