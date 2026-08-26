@@ -10,7 +10,7 @@
     "provider": "github",
     "repository": "Sankofa06/Lucidity",
     "releaseBranch": "main",
-    "releaseCommit": null
+    "releaseCommit": "36871063a1e0c1c0e9e75f16b668f0ecdd3662a4"
   },
   "stableRunner": {
     "profile": "stable-xcode-26.3-intel",
@@ -40,7 +40,26 @@
   "release": {
     "marketingVersion": "0.1.5",
     "buildNumber": "7",
-    "status": "blocked-missing-app-store-connect-record"
+    "releaseType": "AFTER_APPROVAL",
+    "status": "ARCHIVED_AWAITING_APP_STORE_CONNECT_RECORD"
+  },
+  "appStoreCandidate": {
+    "marketingVersion": "0.1.5",
+    "buildNumber": "7",
+    "releaseCommit": "36871063a1e0c1c0e9e75f16b668f0ecdd3662a4",
+    "status": "ARCHIVED_AWAITING_APP_STORE_CONNECT_RECORD",
+    "releaseType": "AFTER_APPROVAL",
+    "ipaSha256": "02c74a33ee953a183993142631cfe692e472837f1ac3602e844ae7d2395d4a08",
+    "screenshots": {
+      "APP_IPHONE_67": {
+        "path": "AppStore/Screenshots/iphone-6.9/01-chat.jpg",
+        "sha256": "291141c3c57a511d040d99e5b79076fcacc893c84944d387a3c00a3546d3e653"
+      },
+      "APP_IPAD_PRO_3GEN_129": {
+        "path": "AppStore/Screenshots/ipad-13/01-chat.jpg",
+        "sha256": "c13138cf063b617769aae21164405f819e68c42a174f9285d7b44b4af780eea7"
+      }
+    }
   },
   "credentials": {
     "environmentFile": "~/.codex/secrets/app-store-connect.env",
