@@ -3,69 +3,69 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="Lucidity is the repository for Mira, a chat-first native AI studio, and Lucidity Fleet, a self-hosted phone-to-inference orchestration stack.">
+    <meta name="description" content="Mira is a native, chat-first AI studio for the machines and model endpoints you control.">
     <meta name="theme-color" content="#f1ecdf">
-    <meta property="og:title" content="Lucidity / Mira — A chat-first AI studio experiment">
-    <meta property="og:description" content="Native studio foundation and self-hosted fleet orchestration, mapped honestly from what is built to what comes next.">
+    <meta property="og:title" content="Mira — Your AI machines, one calm chat">
+    <meta property="og:description" content="Connect, inspect, and chat with the model routes you configure from one native workspace.">
     <meta property="og:type" content="website">
-    <title>Lucidity / Mira — Project checkpoint</title>
+    <title>Mira — A private, chat-first AI studio</title>
     <link rel="stylesheet" href="styles.css">
   </head>
   <body>
     <a class="skip-link" href="#main">Skip to project overview</a>
     <header class="masthead">
       <a class="wordmark" href="./"><span aria-hidden="true">M</span> Lucidity / Mira</a>
-      <nav aria-label="Primary navigation"><a href="#two-builds">The builds</a><a href="#roadmap">Roadmap</a><a href="#lineage">Compare</a><a href="support.html">Support</a><a href="privacy.html">Privacy</a><a class="source" href="https://github.com/Sankofa06/Lucidity">View source on GitHub ↗</a></nav>
+      <nav aria-label="Primary navigation"><a href="#two-builds">What ships</a><a href="#roadmap">Roadmap</a><a href="#lineage">Privacy</a><a href="support.html">Support</a><a href="privacy.html">Privacy policy</a><a class="source" href="https://github.com/Sankofa06/Lucidity">View source on GitHub ↗</a></nav>
     </header>
 
     <main id="main">
       <section class="hero wrap">
         <div class="hero-copy">
-          <p class="kicker">Project checkpoint · Early alpha</p>
-          <h1>One idea.<br><em>Two ways in.</em></h1>
-          <p class="lede">Lucidity explores a calmer way to reach a personal AI fleet: <b>Mira</b>, a native chat-first studio, and <b>Lucidity Fleet</b>, a self-hosted phone interface for coding agents and image generation.</p>
-          <div class="actions"><a class="button dark" href="#roadmap">See where it paused ↓</a><a class="button" href="https://github.com/Sankofa06/Lucidity">View source on GitHub ↗</a></div>
+          <p class="kicker">Native for iPhone and iPad · Build 7</p>
+          <h1>Your AI machines.<br><em>One calm chat.</em></h1>
+          <p class="lede"><b>Mira</b> is a chat-first studio for the model endpoints you control. Configure your machines, inspect route health, and stream a conversation from a selected LM Studio route without sending it through a developer-operated AI service.</p>
+          <div class="actions"><a class="button dark" href="#two-builds">Explore the current release ↓</a><a class="button" href="https://github.com/Sankofa06/Lucidity">View source on GitHub ↗</a></div>
         </div>
         <div class="hero-diagram" aria-label="Two connected Lucidity product tracks">
-          <article class="native-card"><span>01 · NATIVE</span><strong>Mira</strong><p>SwiftUI chat workspace</p><div class="mini-ui"><i></i><i></i><i></i><b>Chat</b><small>Inspector</small></div></article>
-          <div class="bridge"><span>same intent</span></div>
-          <article class="fleet-card"><span>02 · SELF-HOSTED</span><strong>Fleet</strong><p>Orchestrator + MCP + PWA</p><div class="nodes"><i>Phone</i><b>Hub</b><i>Models</i></div></article>
+          <article class="native-card"><span>01 · NATIVE</span><strong>Mira</strong><p>Chat and Inspector</p><div class="mini-ui"><i></i><i></i><i></i><b>Chat</b><small>Routes</small></div></article>
+          <div class="bridge"><span>direct connection</span></div>
+          <article class="fleet-card"><span>02 · YOUR NETWORK</span><strong>Routes</strong><p>Machines + endpoints</p><div class="nodes"><i>Phone</i><b>Mira</b><i>Models</i></div></article>
         </div>
       </section>
 
       <section class="split-section" id="two-builds">
         <div class="wrap">
-          <header><p class="kicker">What exists in the repository</p><h2>Not one finished app.<br>Two credible foundations.</h2></header>
+          <header><p class="kicker">What ships in the current build</p><h2>Start in chat.<br>Keep the machinery nearby.</h2></header>
           <div class="build-grid">
             <article>
-              <span class="number">01</span><p class="label">Mira · Swift 6</p><h3>A polished native shell with one live route.</h3>
-              <ul><li>Responsive chat, Inspector, rail, Settings, task and route picker</li><li>In-memory machine drafts and read-only LM Studio, A1111 and ComfyUI probes</li><li>Route hydration and LM Studio streaming chat</li><li>Focused endpoint, inventory, route and streaming tests</li></ul>
-              <p class="truth"><b>Boundary:</b> machine and transcript state are still in memory; Group Chat, Compare, cloud streaming, and much of the supporting library remain planned.</p>
+              <span class="number">01</span><p class="label">CHAT FIRST</p><h3>Choose a route, then stay with the conversation.</h3>
+              <ul><li>Responsive chat workspace for iPhone and iPad</li><li>Task-first route picker instead of a wall of model names</li><li>Streaming Free Chat through a selected LM Studio route</li><li>Inspector and Developer Mode details close at hand</li></ul>
+              <p class="truth"><b>Current scope:</b> this release supports one explicit live LM Studio text route. Group Chat, Compare, persistent transcripts, and cloud streaming remain future work.</p>
             </article>
             <article>
-              <span class="number">02</span><p class="label">Lucidity Fleet · Node + React</p><h3>A phone-first control path for a private fleet.</h3>
-              <ul><li>SQLite orchestrator for session routing and mirrored history</li><li>MCP and REST diffusion service wrapping ComfyUI jobs</li><li>Installable PWA for Chat, Images, and fleet state</li><li>GitLab validation plus optional machine-local deploy jobs</li></ul>
-              <p class="truth"><b>Boundary:</b> this is a self-hosted prototype. Deployment and private-network security depend on the operator's environment; authentication is optional in the current design.</p>
+              <span class="number">02</span><p class="label">YOUR ROUTES</p><h3>See the endpoints behind the friendly name.</h3>
+              <ul><li>Add machine display names, hosts, and expected ports at runtime</li><li>Run read-only probes for LM Studio, A1111/Forge, and ComfyUI endpoints</li><li>Hydrate discovered routes into Chat, Inspector, Machines, and Library</li><li>Keep real hosts, keys, and inventories out of the app's public source</li></ul>
+              <p class="truth"><b>Current scope:</b> configured machines and endpoint state are in memory in this release. Mira connects only to routes you explicitly configure.</p>
             </article>
           </div>
         </div>
       </section>
 
       <section class="roadmap wrap" id="roadmap">
-        <div class="roadmap-intro"><div><p class="kicker">Repository roadmap</p><h2>Where the work stopped—and the cleanest way back in.</h2></div><p>The native task ledger has no in-progress item. Its next ready steps are durable persistence and multi-route chat. Fleet has a staged bring-up guide, but no public CI evidence was available from GitHub.</p></div>
+        <div class="roadmap-intro"><div><p class="kicker">Release roadmap</p><h2>A focused first route, then durable work.</h2></div><p>Build 7 packages the native foundation for App Store delivery. The next steps are durable machine and transcript storage, followed by carefully expanding the proven one-route chat path.</p></div>
         <ol>
-          <li class="complete"><span>Built</span><div><h3>First-build foundation</h3><p>Native interaction shell, live LM Studio Free Chat, endpoint probes, route hydration, plus the separate Fleet orchestrator, diffusion server, and PWA.</p></div></li>
-          <li class="current"><span>Decision</span><div><h3>Choose the product center</h3><p>Decide whether Mira remains the primary native experience, Fleet becomes the product, or the two become explicit clients of one shared control plane.</p></div></li>
-          <li><span>Next</span><div><h3>Make the native path durable</h3><p>Persist configured machines and conversations, then extend the proven one-route chat path to Compare and Group Chat with cancellation and scheduler tests.</p></div></li>
-          <li><span>Later</span><div><h3>Earn the wider studio</h3><p>Build real Personas, Teams, Projects, model-source downloads, cloud routes, App Intents, and live surfaces only after the core ownership boundary is settled.</p></div></li>
+          <li class="complete"><span>Built</span><div><h3>Native foundation</h3><p>Responsive Chat and Inspector, task and route pickers, runtime machine setup, endpoint probes, route hydration, and live LM Studio Free Chat.</p></div></li>
+          <li class="current"><span>Now</span><div><h3>Build 7 release candidate</h3><p>Signed App Store delivery uses the private Silver Surfer Xcode 26.3 runner. Public support and privacy pages describe the current source behavior.</p></div></li>
+          <li><span>Next</span><div><h3>Make work durable</h3><p>Persist configured machines and conversations, then extend the proven route path to Compare and Group Chat with cancellation and scheduling.</p></div></li>
+          <li><span>Later</span><div><h3>Earn the wider studio</h3><p>Expand Personas, Teams, Projects, model sources, cloud routes, media planning, and live surfaces only as their real workflows land.</p></div></li>
         </ol>
       </section>
 
-      <section class="intent wrap"><p class="kicker">Original intent</p><blockquote>“Chat is the center. All major workflows can begin from chat.”</blockquote><p>The strongest idea worth preserving is not a feature list. It is the attempt to make machines, routes, media engines, and diagnostics feel nearby without making setup the product.</p></section>
+      <section class="intent wrap"><p class="kicker">The product principle</p><blockquote>“Chat is the center. All major workflows can begin from chat.”</blockquote><p>Mira keeps machines, routes, and diagnostics close without turning setup into the product.</p></section>
 
-      <section class="lineage" id="lineage"><div class="wrap"><header><p class="kicker">Compare the siblings</p><h2>A clean-slate answer to a familiar problem.</h2></header><div class="comparison"><a href="https://sankofa06.github.io/LMManagerPro/"><b>LM Manager Pro</b><span>The broad, mature creation platform Mira set out to rethink.</span></a><a href="https://sankofa06.github.io/Conductor/"><b>ComfyChat</b><span>A narrower native focus on local chat, durable runs, and ComfyUI.</span></a><a href="https://sankofa06.github.io/harness-os/"><b>Harness OS</b><span>A fuller cross-platform control plane for agents, compute, and workspaces.</span></a></div></div></section>
+      <section class="lineage" id="lineage"><div class="wrap"><header><p class="kicker">Private by design</p><h2>Your configuration stays yours.</h2></header><div class="comparison"><a href="privacy.html"><b>Direct connections</b><span>Selected requests travel from your device to the endpoint you configure, not through a developer-operated AI backend.</span></a><a href="privacy.html"><b>No tracking SDK</b><span>The current app includes no advertising, cross-app tracking, or third-party analytics.</span></a><a href="https://github.com/Sankofa06/Lucidity"><b>Inspectable source</b><span>Review the native app, its endpoint architecture, and its clearly documented current boundaries on GitHub.</span></a></div></div></section>
     </main>
 
-    <footer class="footer wrap"><p>Lucidity / Mira · last substantive update July 2026</p><div><a href="support.html">Support</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/Sankofa06/Lucidity">View source on GitHub ↗</a></div></footer>
+    <footer class="footer wrap"><p>Lucidity / Mira · Build 7 release candidate · August 2026</p><div><a href="support.html">Support</a> · <a href="privacy.html">Privacy</a> · <a href="https://github.com/Sankofa06/Lucidity">View source on GitHub ↗</a></div></footer>
   </body>
 </html>
