@@ -1,5 +1,13 @@
 # Repository Guidelines
 
+## Required Common Workforce
+
+This repository inherits the global `Common Workforce and Assurance Workflow` from `~/.codex/AGENTS.md`. Invoke the global `full-workforce` skill for explicit workforce requests and qualifying cross-system or release-critical Program work. The skill coordinates agents but does not widen this repository's authority or release boundaries.
+
+## Required Common Workflow
+
+This repository inherits the global `Common Xcode Project Workflow` from `~/.codex/AGENTS.md`. Invoke the global `develop-swift-app` skill for any task that plans, builds, changes, audits, tests, runs, or delivers this app. The repository-specific architecture, commands, and authority boundaries below take precedence where they are more specific.
+
 ## Project Structure & Module Organization
 
 Mira is a Swift 6 iOS app project. The repository is currently minimal, so keep the future layout explicit and modular:
@@ -67,11 +75,11 @@ After every implementation change, use this workflow:
 
 1. Regenerate project files with XcodeGen when applicable.
 2. Run an XcodeBuildMCP clean build and require zero warnings.
-3. Automatically and thoughtfully bump the build or revision using the project versioning workflow.
+3. Review versioning impact and bump the build or revision only when the requested delivery scope requires it.
 4. Update all repo documentation plus in-app onboarding, glossary, and help data.
-5. Stage changes, commit with a thoughtful message, and push to the working branch.
-6. Upload to TestFlight only when the change is release-gated for external validation.
-7. Run quick unit tests after push/upload to catch regressions.
+5. Run focused tests and the broader gate proportional to risk.
+6. After green verification, follow the global standing authorization for an isolated task commit and task-branch push.
+7. Follow the global internal-TestFlight loop only after this repository's missing App Store Connect record and internal group have been explicitly created and recorded; until then, report `TestFlight blocked`.
 
 Run UI tests, screenshot tests, and heavier validation nightly.
 
