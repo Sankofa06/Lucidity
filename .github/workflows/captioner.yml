@@ -1,0 +1,92 @@
+# captioner.yml
+# Builds and tests the Captioner iOS app on a GitHub-hosted macOS runner.
+#
+# Runs CaptionerKit's package tests, generates the Xcode project with
+# XcodeGen, builds the app with warnings treated as errors, and runs the app
+# unit tests on an available iPhone simulator. Only triggers for changes
+# under Captioner/ or to this workflow. No signing or secrets are used.
+name: Captioner
+
+on:
+  push:
+    paths:
+      - "Captioner/**"
+      - ".github/workflows/captioner.yml"
+  pull_request:
+    paths:
+      - "Captioner/**"
+      - ".github/workflows/captioner.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: captioner-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build-and-test:
+    runs-on: macos-15
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Select newest Xcode
+        run: |
+          XCODE="$(ls -d /Applications/Xcode_*.app | grep -vi beta | sort -V | tail -1)"
+          sudo xcode-select -s "$XCODE"
+          xcodebuild -version
+
+      - name: Test CaptionerKit (warnings are errors)
+        run: swift test --package-path Captioner/CaptionerKit -Xswiftc -warnings-as-errors
+
+      - name: Generate Xcode project
+        run: |
+          brew install xcodegen
+          cd Captioner && xcodegen generate
+
+      - name: Pick an iPhone simulator
+        id: sim
+        run: |
+          UDID="$(xcrun simctl list devices available --json | python3 -c '
+          import json, sys
+          runtimes = json.load(sys.stdin)["devices"]
+          ios = sorted((r for r in runtimes if ".iOS-" in r), key=lambda r: [int(p) for p in r.split(".iOS-")[1].split("-")])
+          for runtime in reversed(ios):
+              phones = [d for d in runtimes[runtime] if d["isAvailable"] and d["name"].startswith("iPhone")]
+              if phones:
+                  print(phones[0]["udid"])
+                  break
+          ')"
+          test -n "$UDID"
+          echo "udid=$UDID" >> "$GITHUB_OUTPUT"
+
+      - name: Build app and tests (warnings are errors)
+        run: |
+          set -o pipefail
+          xcodebuild build-for-testing \
+            -project Captioner/Captioner.xcodeproj \
+            -scheme Captioner \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO \
+            SWIFT_TREAT_WARNINGS_AS_ERRORS=YES \
+            GCC_TREAT_WARNINGS_AS_ERRORS=YES \
+            | tee build.log
+          # Belt and braces: fail on any warning line the flags above missed
+          # (asset catalog, linker, and package warnings).
+          if grep -E "^.+: warning: " build.log; then
+            echo "::error::Build produced warnings"
+            exit 1
+          fi
+
+      - name: Run app unit tests
+        run: |
+          set -o pipefail
+          xcodebuild test-without-building \
+            -project Captioner/Captioner.xcodeproj \
+            -scheme Captioner \
+            -destination "id=${{ steps.sim.outputs.udid }}" \
+            -derivedDataPath build \
+            CODE_SIGNING_ALLOWED=NO
