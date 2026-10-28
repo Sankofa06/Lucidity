@@ -1,0 +1,54 @@
+# project.yml
+# XcodeGen spec for Captioner, the on-device auto-captions iOS app.
+#
+# Run `xcodegen generate` in this folder to create Captioner.xcodeproj (not
+# committed; this file is the source of truth). The app links the local
+# CaptionerKit package, which holds all pure caption logic.
+name: Captioner
+options:
+  bundleIdPrefix: com.michaelwilliams
+  deploymentTarget:
+    iOS: "18.0"
+packages:
+  CaptionerKit:
+    path: CaptionerKit
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    DEVELOPMENT_TEAM: "5RGU344VJR"
+    CODE_SIGN_STYLE: Automatic
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+    GENERATE_INFOPLIST_FILE: YES
+    INFOPLIST_KEY_CFBundleDisplayName: Captioner
+    INFOPLIST_KEY_ITSAppUsesNonExemptEncryption: NO
+    INFOPLIST_KEY_UILaunchScreen_Generation: YES
+    INFOPLIST_KEY_UISupportedInterfaceOrientations: UIInterfaceOrientationPortrait
+    INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad: "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight"
+    INFOPLIST_KEY_NSSpeechRecognitionUsageDescription: "Captioner transcribes your video's speech into captions, on your iPhone when your language supports it."
+    INFOPLIST_KEY_NSPhotoLibraryAddUsageDescription: "Captioner saves captioned videos to your photo library when you choose Save Video."
+targets:
+  Captioner:
+    type: application
+    platform: iOS
+    sources:
+      - path: Captioner
+    dependencies:
+      - package: CaptionerKit
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.michaelwilliams.captioner
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+    scheme:
+      testTargets:
+        - CaptionerTests
+  CaptionerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - path: CaptionerTests
+    dependencies:
+      - target: Captioner
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.michaelwilliams.captioner.tests

@@ -24,3 +24,10 @@ machine health), an MCP diffusion server wrapping ComfyUI (callable by
 opencode agents mid-session and by the phone), and a phone-first installable
 PWA — all Tailscale-only. See `Fleet/README.md` for architecture, setup, and
 GitLab CI.
+
+## Captioner
+
+`Captioner/` is a separate iPhone app: on-device auto-captions for videos, with
+karaoke-style word highlighting, caption editing, burned-in video export, and
+`.srt` export. It has its own XcodeGen spec and a pure `CaptionerKit` Swift
+package. See `Captioner/README.md`.

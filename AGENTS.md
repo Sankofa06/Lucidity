@@ -101,6 +101,23 @@ Preserve untracked or user-edited files unless explicitly asked to change them. 
 
 Agents must treat clean builds, zero warnings, current documentation, thoughtful versioning, and branch push readiness as part of the work, not optional follow-up.
 
+## Captioner App
+
+`Captioner/` is a second, independent iOS app (on-device auto-captions). It
+follows the same architecture and file-header rules as Mira:
+
+- `Captioner/project.yml` is its XcodeGen spec. The generated
+  `Captioner.xcodeproj` is not committed.
+- `Captioner/CaptionerKit/` is a Foundation-only Swift package for all pure
+  caption logic. Run `swift test --package-path Captioner/CaptionerKit`.
+- `Captioner/Captioner/` holds the app (App, Features, Services, DesignSystem,
+  Content). `Captioner/CaptionerTests/` holds the view model tests.
+- Build: `cd Captioner && xcodegen generate`, then
+  `xcodebuild -project Captioner/Captioner.xcodeproj -scheme Captioner -destination 'platform=iOS Simulator,name=iPhone 17 Pro Max' build`.
+- CI: `.github/workflows/captioner.yml` (GitHub-hosted macOS, warnings as errors).
+- In-app help lives in `Captioner/Captioner/Content/HelpContent.swift`. Keep it
+  in sync with `Captioner/README.md`.
+
 ## Private Endpoint Data
 
 Real Tailscale IPs, machine names, API keys, endpoint snapshots, and private
