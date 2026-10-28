@@ -67,9 +67,6 @@ struct EditorView: View {
                 viewModel.updateCue(id: cue.id, text: newText)
             }
         }
-        .onChange(of: viewModel.style) {
-            viewModel.invalidateExports()
-        }
     }
 
     /// Video with the live caption overlay, framed to the video's exact

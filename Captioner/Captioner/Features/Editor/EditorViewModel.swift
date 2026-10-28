@@ -31,7 +31,9 @@ final class EditorViewModel {
     private(set) var cues: [CaptionCue] = []
     private(set) var preset: CaptionStylePreset = .karaoke
     /// Editable from the style sliders through a binding.
-    var style: CaptionStyle = CaptionStylePreset.karaoke.style
+    var style: CaptionStyle = CaptionStylePreset.karaoke.style {
+        didSet { invalidateExports() }
+    }
     private(set) var isExporting = false
     private(set) var exportedVideoURL: URL?
     private(set) var exportedSubtitleURL: URL?
@@ -45,6 +47,8 @@ final class EditorViewModel {
     @ObservationIgnored private let videoExporter: any CaptionVideoExporting
     @ObservationIgnored private let subtitleWriter: any SubtitleFileWriting
     @ObservationIgnored private let groupingRules: CaptionGroupingRules
+    /// Distinguishes an export's captured project from edits made while it awaits.
+    @ObservationIgnored private var exportRevision = 0
 
     init(
         importer: any MovieImporting = PhotosMovieImporter(),
@@ -146,12 +150,18 @@ final class EditorViewModel {
 
     func exportVideo() async {
         guard let videoURL, !isExporting else { return }
+        let revision = exportRevision
+        let exportCues = cues
+        let exportStyle = style
         isExporting = true
         defer { isExporting = false }
         playback?.player.pause()
         do {
-            exportedVideoURL = try await videoExporter.exportVideo(source: videoURL, cues: cues, style: style)
+            let outputURL = try await videoExporter.exportVideo(source: videoURL, cues: exportCues, style: exportStyle)
+            guard exportRevision == revision else { return }
+            exportedVideoURL = outputURL
         } catch {
+            guard exportRevision == revision else { return }
             errorMessage = message(for: error)
         }
     }
@@ -166,6 +176,7 @@ final class EditorViewModel {
 
     /// Any edit or style change makes earlier exports stale.
     func invalidateExports() {
+        exportRevision += 1
         exportedVideoURL = nil
         exportedSubtitleURL = nil
     }

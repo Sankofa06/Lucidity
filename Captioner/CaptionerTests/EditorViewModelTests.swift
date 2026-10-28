@@ -15,7 +15,7 @@ struct EditorViewModelTests {
     private func makeViewModel(
         transcriber: StubTranscriber = StubTranscriber(words: TestTranscripts.words),
         audioExtractor: StubAudioExtractor = StubAudioExtractor(),
-        videoExporter: StubVideoExporter = StubVideoExporter()
+        videoExporter: any CaptionVideoExporting = StubVideoExporter()
     ) -> EditorViewModel {
         EditorViewModel(
             importer: StubImporter(),
@@ -103,6 +103,70 @@ struct EditorViewModelTests {
         #expect(viewModel.exportedVideoURL != nil)
         #expect(viewModel.isExporting == false)
         #expect(exporter.exportedStyles == [viewModel.style])
+    }
+
+    @Test func editDuringExportDiscardsCompletedVideo() async throws {
+        let exporter = SuspendedStubVideoExporter()
+        let viewModel = makeViewModel(videoExporter: exporter)
+        await viewModel.loadVideo(at: videoURL)
+        let firstCue = try #require(viewModel.cues.first)
+
+        let exportTask = Task { await viewModel.exportVideo() }
+        await exporter.waitUntilStarted()
+        viewModel.updateCue(id: firstCue.id, text: "Updated caption")
+        let outputURL = URL(fileURLWithPath: "/tmp/stale-export.mov")
+        exporter.complete(with: outputURL)
+        await exportTask.value
+
+        #expect(viewModel.cues.first?.text == "Updated caption")
+        #expect(viewModel.exportedVideoURL == nil)
+        #expect(viewModel.isExporting == false)
+    }
+
+    @Test func styleChangeDuringExportDiscardsCompletedVideo() async {
+        let exporter = SuspendedStubVideoExporter()
+        let viewModel = makeViewModel(videoExporter: exporter)
+        await viewModel.loadVideo(at: videoURL)
+
+        let exportTask = Task { await viewModel.exportVideo() }
+        await exporter.waitUntilStarted()
+        viewModel.style.verticalPosition = 0.42
+        exporter.complete(with: URL(fileURLWithPath: "/tmp/stale-style-export.mov"))
+        await exportTask.value
+
+        #expect(viewModel.exportedVideoURL == nil)
+        #expect(viewModel.isExporting == false)
+    }
+
+    @Test func startingOverDuringExportDiscardsCompletedVideo() async {
+        let exporter = SuspendedStubVideoExporter()
+        let viewModel = makeViewModel(videoExporter: exporter)
+        await viewModel.loadVideo(at: videoURL)
+
+        let exportTask = Task { await viewModel.exportVideo() }
+        await exporter.waitUntilStarted()
+        viewModel.startOver()
+        exporter.complete(with: URL(fileURLWithPath: "/tmp/previous-project-export.mov"))
+        await exportTask.value
+
+        #expect(viewModel.phase == .empty)
+        #expect(viewModel.exportedVideoURL == nil)
+        #expect(viewModel.isExporting == false)
+    }
+
+    @Test func unchangedProjectPublishesCompletedVideo() async {
+        let exporter = SuspendedStubVideoExporter()
+        let viewModel = makeViewModel(videoExporter: exporter)
+        await viewModel.loadVideo(at: videoURL)
+        let outputURL = URL(fileURLWithPath: "/tmp/current-project-export.mov")
+
+        let exportTask = Task { await viewModel.exportVideo() }
+        await exporter.waitUntilStarted()
+        exporter.complete(with: outputURL)
+        await exportTask.value
+
+        #expect(viewModel.exportedVideoURL == outputURL)
+        #expect(viewModel.isExporting == false)
     }
 
     @Test func activeCueFollowsPlayhead() async {

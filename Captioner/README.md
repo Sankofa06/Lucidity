@@ -17,7 +17,9 @@ No code, assets, or binaries from Captions or CapCut were used or decompiled.
 4. **Fix**: tap a caption to edit it. Edited words are re-timed across the
    original spoken span. Clearing the text deletes the caption.
 5. **Export**: a `.mov` with captions burned in (share sheet › Save Video),
-   or an `.srt` subtitle file.
+   or an `.srt` subtitle file. If captions, style, or the project changes
+   while a video is encoding, that result is discarded; export again to share
+   the current edit.
 
 ## Parity with Captions / CapCut
 

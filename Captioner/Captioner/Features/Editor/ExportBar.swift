@@ -3,8 +3,8 @@
 //
 // Presentation only. Export buttons call the view model; once an export
 // exists, its button becomes a share button. From the share sheet, "Save
-// Video" puts the result in Photos. Any edit clears the exports so stale files
-// are never shared.
+// Video" puts the result in Photos. Any edit clears previous exports, and a
+// video export that finishes after an edit is discarded before it can be shared.
 
 import SwiftUI
 

@@ -59,6 +59,37 @@ final class StubVideoExporter: CaptionVideoExporting {
     }
 }
 
+@MainActor
+final class SuspendedStubVideoExporter: CaptionVideoExporting {
+    private(set) var exportedStyles: [CaptionStyle] = []
+    private(set) var hasStarted = false
+    private var startContinuation: CheckedContinuation<Void, Never>?
+    private var exportContinuation: CheckedContinuation<URL, Never>?
+
+    func exportVideo(source: URL, cues: [CaptionCue], style: CaptionStyle) async throws -> URL {
+        exportedStyles.append(style)
+        hasStarted = true
+        startContinuation?.resume()
+        startContinuation = nil
+
+        return await withCheckedContinuation { continuation in
+            exportContinuation = continuation
+        }
+    }
+
+    func waitUntilStarted() async {
+        guard !hasStarted else { return }
+        await withCheckedContinuation { continuation in
+            startContinuation = continuation
+        }
+    }
+
+    func complete(with url: URL) {
+        exportContinuation?.resume(returning: url)
+        exportContinuation = nil
+    }
+}
+
 struct StubSubtitleWriter: SubtitleFileWriting {
     func writeSubRip(_ cues: [CaptionCue]) throws -> URL {
         URL(fileURLWithPath: "/tmp/stub-\(cues.count).srt")
